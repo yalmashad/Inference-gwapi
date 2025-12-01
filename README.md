@@ -6,3 +6,18 @@ This repo show example of NGINX Gateway Fabric (NGF) with the Gateway API Infere
 - Endpoint Picker (EPP) choosing backend
 
 The demo uses lightweight LLM simulator backends and works on any local Kubernetes cluster.
+
+1. Install NGF with Inference Extension enabled
+   Check documentaion at https://docs.nginx.com/nginx-gateway-fabric/
+
+2. Deploy the two model servers
+   ```
+$ kubectl apply -f models.yaml
+
+$ kubectl get pods | grep llm-sim
+cheap-llm-sim-abc123       Running
+cheap-llm-sim-def456       Running
+expensive-llm-sim-aaa111   Running
+expensive-llm-sim-bbb222   Running
+
+   ```
