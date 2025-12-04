@@ -120,3 +120,47 @@ In real-world environemtn with real models running on GPUs, you should see:
 - chat-high latency remains stable
 - batch-low latency varies more under load
 
+### 8. Metrics & Observability
+
+Create EPP metrics RBAC (ClusterRole, SA, Binding, Secret)
+```
+kubectl apply -f epp-metrics-rbac.yaml
+```
+
+Port-forward the EPP
+```
+kubectl -n default port-forward deploy/expensive-llm-pool-epp 9090:9090
+```
+
+Get the ServiceAccount token
+```
+TOKEN=$(kubectl -n default get secret inference-gateway-sa-metrics-reader-secret \
+        -o jsonpath='{.data.token}' | base64 --decode)
+```
+
+Curl the metrics endpoint
+```
+curl -H "Authorization: Bearer $TOKEN" http://127.0.0.1:9090/metrics | head -n 40
+```
+
+Example output
+```
+...
+inference_model_request_sizes_sum{model_name="my-org/chat-quality",target_model_name="my-org/chat-quality"} 74081
+inference_model_request_sizes_count{model_name="my-org/chat-quality",target_model_name="my-org/chat-quality"} 783
+inference_model_request_total{model_name="my-org/chat-quality",target_model_name="my-org/chat-quality"} 783
+inference_model_running_requests{model_name="my-org/chat-quality"} 0
+inference_pool_average_kv_cache_utilization{name="expensive-llm-pool"} 0
+inference_pool_average_queue_size{name="expensive-llm-pool"} 0
+inference_pool_per_pod_queue_size{model_server_pod="expensive-llm-sim-b9c8f95b5-npffl",name="expensive-llm-pool"} 0
+inference_pool_per_pod_queue_size{model_server_pod="expensive-llm-sim-b9c8f95b5-tgl48",name="expensive-llm-pool"} 0
+inference_pool_ready_pods{name="expensive-llm-pool"} 2
+process_cpu_seconds_total 21459.2
+process_max_fds 1.048576e+06
+process_network_receive_bytes_total 3.4720290962e+10
+process_network_transmit_bytes_total 3.074174655e+09
+process_open_fds 15
+process_resident_memory_bytes 1.1067392e+08
+...
+```
+
