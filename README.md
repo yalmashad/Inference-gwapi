@@ -5,6 +5,9 @@ This repo show example of NGINX Gateway Fabric (NGF) with the Gateway API Infere
 - Inference objectives / priorities
 - Endpoint Picker (EPP) choosing backend
 
+![Alt text](epp.png)
+Diagram from EPP Github page
+
 The demo uses lightweight LLM simulator backends and works on any local Kubernetes cluster.
 
 ### 1. Install NGF with Inference Extension enabled
