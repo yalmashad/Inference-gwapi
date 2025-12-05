@@ -164,3 +164,35 @@ process_resident_memory_bytes 1.1067392e+08
 ...
 ```
 
+### 8. Prometheus (Optional)
+Create the monitoring namespace:
+```
+kubectl create namespace monitoring
+```
+
+Create ServiceAccount + RBAC for Prometheus to read EPP metrics:
+```
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api-inference-extension/raw/main/config/observability/prometheus/rbac.yaml
+```
+
+Patch the ClusterRoleBinding to use the monitoring namespace:
+```
+kubectl patch clusterrolebinding inference-gateway-sa-metrics-reader-role-binding \
+  --type='json' \
+  -p='[{"op": "replace", "path": "/subjects/0/namespace", "value": "monitoring"}]'
+```
+Install Prometheus with values that scrape EPP metrics on port 9090 using the RBAC created above:
+```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+helm install prometheus prometheus-community/prometheus \
+  --namespace monitoring \
+  -f https://github.com/kubernetes-sigs/gateway-api-inference-extension/raw/main/config/observability/prometheus/values.yaml
+```
+Check Prometheus targets:
+```
+kubectl -n monitoring port-forward deploy/prometheus-server 9091:9090
+```
+Open: http://127.0.0.1:9091/targets
+
+![Alt text](prometheus.png)
