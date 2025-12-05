@@ -83,6 +83,30 @@ NAME                CLASS   ADDRESS        PROGRAMMED   AGE
 inference-gateway   nginx   10.97.215.83   True         7d17h
 
 $ kubectl describe httproute llm-demo-route
+...
+Status:
+  Parents:
+    Conditions:
+      Last Transition Time:  2025-11-24T02:16:52Z
+      Message:               The route is accepted
+      Observed Generation:   1
+      Reason:                Accepted
+      Status:                True
+      Type:                  Accepted
+      Last Transition Time:  2025-11-24T02:16:52Z
+      Message:               All references are resolved
+      Observed Generation:   1
+      Reason:                ResolvedRefs
+      Status:                True
+      Type:                  ResolvedRefs
+    Controller Name:         gateway.nginx.org/nginx-gateway-controller
+    Parent Ref:
+      Group:         gateway.networking.k8s.io
+      Kind:          Gateway
+      Name:          inference-gateway
+      Namespace:     default
+      Section Name:  http
+...
 ```
 
 ### 6. Expose NGF
