@@ -5,7 +5,7 @@ This repo show example of NGINX Gateway Fabric (NGF) with the Gateway API Infere
 - Inference objectives / priorities
 - Endpoint Picker (EPP) choosing backend
 
-![Alt text](epp.png)
+![Alt text](images/epp.png)
 Diagram from EPP Github page
 
 The demo uses lightweight LLM simulator backends and works on any local Kubernetes cluster.
@@ -198,4 +198,4 @@ kubectl -n monitoring port-forward deploy/prometheus-server 9091:9090
 ```
 Open: http://127.0.0.1:9091/targets
 
-![Alt text](prometheus.png)
+![Alt text](images/prometheus.png)
