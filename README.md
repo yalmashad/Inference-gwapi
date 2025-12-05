@@ -77,7 +77,10 @@ chat-high   expensive-llm-pool   100        22h
 ```
 $ kubectl apply -f ngf-gw.yaml
 $ kubectl apply -f http-route.yaml
+```
 
+Verify:
+```
 $ kubectl get gateway inference-gateway
 NAME                CLASS   ADDRESS        PROGRAMMED   AGE
 inference-gateway   nginx   10.97.215.83   True         7d17h
