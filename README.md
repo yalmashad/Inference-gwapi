@@ -116,9 +116,7 @@ for i in {1..10}; do
 done
 ```
 
-Note: The simulators respond very quickly, so the effect will be subtle on this envirnment.
-The test still demonstrates correct wiring of priority metadata.
-
+Note: The simulators respond very quickly, so the effect may be hard to see in this environment.
 In real-world environemtn with real models running on GPUs, you should see:
 - chat-high latency remains stable
 - batch-low latency varies more under load
